@@ -1,0 +1,14 @@
+staffchat: "&8[&cSC&8] &7%prisoncore_displayname%&8:&c "
+formats:
+  default:
+    priority: 0
+    format: "&8[&4%prisoncore_prestige%&8/&4%prisoncore_mine%&8] &7%prisoncore_displayname% %prisoncore_suffix% &8> &f%message%"
+    perm: "default"
+  owner:
+    priority: 10
+    format: "&8[&4%prisoncore_prestige%&8/&4%prisoncore_mine%&8] &8[&4&lOwner&8] &7%prisoncore_displayname% %prisoncore_suffix% &8> &c%message%"
+    perm: "chat.owner"
+  minepos:
+    priority: 1
+    format: "&8[&4%prisoncore_prestige%&8/&4%prisoncore_mine%&8] &8[&bMinePoS&8] &7%prisoncore_displayname% %prisoncore_suffix% &8> &b%message%"
+    perm: "chat.minepos"

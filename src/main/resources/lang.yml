@@ -1,0 +1,38 @@
+prefix: "&4Breakout&cINC. &8|&7 "
+
+header: "&4&l>&c&l> &8&m-----&4&m-----&c&m----&7&m---&8[ &4Breakout&cINC. &8]&7&m---&c&m----&4&m-----&8&m-----&r &c&l<&4&l<"
+footer: "&4&l>&c&l> &8&m-----&4&m-----&c&m----&7&m-------------------&c&m----&4&m-----&8&m-----&r &c&l<&4&l<"
+
+#Rankup config
+rankup: "&aYou have just ranked up to %prisoncore_mine%"
+cantaffordrankup: "&cYou can't afford to rank up to %prisoncore_minenext% you need %prisoncore_remaining% to rankup"
+ranksformat: "&7%from% &8&m--&8> &7%to% &8[&c$%price%&8]"
+
+maxrank: "&cYou are at the highest rank to continue please do /prestige"
+
+#prestige config
+prestigewarning: "&cAre you sure you wish to do this? Your mine will be set to A and your money will be reset please re-run /prestige to confirm"
+prestige: "&aYou have just prestiged to prestige %prisoncore_prestige%"
+maxprestige: "&cYou are are at the max prestige!"
+
+notmaxrank: "&cTo be able to prestige you must be at the Highest rank"
+
+
+discordbadcode: "&cSorry but that code is not Valid"
+discordlinked: "&aYour code was accepted your discord is now linked."
+
+discordtfaneeded: "&cYour account requires TFA please look in discord to verify your identity"
+discordtfadone: "&aThank you for verifying, you now have access to do things."
+
+autorankupenabled: "&aYou have enabled auto rankup."
+autorankupdisabled: "&cYou have disabled auto rankup."
+
+rankupmax: "&cYou didnt have enough to rankup at all"
+
+payxpsyntax: "&cUsage: /payxp (player) (xp) | please note this is NOT xp levels"
+targetoffline: "&cSorry that user can not be found"
+targetyourself: "&cSorry you cant pay yourself"
+xpcantafford: "&cYou cant afford this xp transaction"
+
+xpsentto: "&aYou have just sent &c%xp%&a xp to &c%to%"
+xpsentfrom: "&aYou have just been sent &c%xp%&a xp from &c%from%"

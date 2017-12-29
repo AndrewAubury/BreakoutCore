@@ -1,0 +1,33 @@
+name: BreakoutCore
+version: 1.0.0
+main: net.breakoutinc.prisoncore.PrisonCore
+description: The Custom Prison Core for BreakOutINC
+authors: [AndrewAubury, PiggyPiglet]
+commands:
+  rankup:
+    usage: /<command>
+    description: "The rankup command in BreakoutCore"
+    permission: prisoncore.rankup
+    aliases: [ru]
+  rankupmax:
+    usage: /<command>
+    description: "Rankup as much as you can in one command"
+    permission: prisoncore.rankupmax
+    aliases: [rum]
+  prestige:
+    usage: /<command>
+    description: "prestige to the next level"
+    permission: prisoncore.prestige
+  prisoncore:
+    usage: /<command>
+    description: "The Main PrisonCore Command"
+  link:
+    description: "Link your account to discord"
+  ranks:
+    description: "view the rank ladder"
+  payxp:
+    description: "Pay someone some XP"
+  corereload:
+    usage: /<command>
+    description: "Reload the cores config"
+    permission: prisoncore.reload

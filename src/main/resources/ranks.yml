@@ -1,0 +1,36 @@
+ranks:
+  A: 5000
+  B: 10000
+  C: 15000
+  D: 25000
+  E: 35000
+  F: 50000
+  G: 65000
+  H: 80000
+  I: 100000
+  J: 120000
+  K: 140000
+  L: 160000
+  M: 190000
+  N: 200000
+  O: 225000
+  P: 250000
+  Q: 275000
+  R: 300000
+  S: 350000
+  T: 400000
+  U: 450000
+  V: 500000
+  W: 750000
+  X: 1000000
+  Y: 1500000
+  Z: 0
+options:
+  rankup:
+    commands:
+      - "bc %player% has ranked up"
+  prestige:
+    multiplier: 4.0
+    max: 50
+    commands:
+      - "bc %player% just prestiged"

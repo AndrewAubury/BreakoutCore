@@ -1,0 +1,21 @@
+enabled: true
+discordtoken: "MzkwOTA1MDg3MTI5NjgxOTIw.DRQ61Q.9bKz7J3vAhVmgxi0MxOxVodnXqY"
+linkchannelid: "390902174235754497"
+chatchannelid: "390902234281672704"
+announcementchannelid: "391615765952069642"
+linkedrole: "390902378192175104"
+
+isplaying: true
+game: "mc.breakoutinc.net"
+
+tfaenabled: true
+tfaperm: prisoncore.tfa
+
+announcementcolor: "#ff0000"
+
+messageprefix: "&8[&7Discord&8] "
+
+messages:
+  linkcode: "To Confirm your account please type the following command in minecraft \n /link %code%"
+  noprivate: "Im not meant to handle private messages :sob:"
+  stafftfa: "%mention% your minecraft account (%player%) just logged in from this ip %ip% \n if this is you please select the :white_check_mark:  below. how ever if this was not you please select :x:  and the ip will be banned"

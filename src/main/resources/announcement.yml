@@ -1,0 +1,38 @@
+delay: 300
+announcements:
+  '0':
+    - "&4|"
+    - "&4|"
+    - "&4|     Breakout&cINC. &8| &7Voting"
+    - "&4|     &7Remember to vote for &cfree&7 rewards!"
+    - "&4|"
+    - "&4|"
+  '1':
+    - "&4|"
+    - "&4|"
+    - "&4|     Breakout&cINC. &8| &7Forums"
+    - "&4|     &7Want to join our forums? Go to &chttps://BreakoutINC.net&7!"
+    - "&4|"
+    - "&4|"
+  '2':
+    - "&4|"
+    - "&4|"
+    - "&4|     Breakout&cINC. &8| &7Voting"
+    - "&4|     &7Remember to vote for &cfree&7 rewards!"
+    - "&4|"
+    - "&4|"
+  '3':
+    - "&4|"
+    - "&4|"
+    - "&4|     Breakout&cINC. &8| &7Discord"
+    - "&4|     &7Want to join our discord? &chttps://discord.gg/WZmHKQM&7!"
+    - "&4|"
+    - "&4|"
+    - "&4|"
+  '4':
+    - "&4|"
+    - "&4|"
+    - "&4|     Breakout&cINC. &8| &7Support Us"
+    - "&4|     &7Support us by donating with &c/buy or voting&7!"
+    - "&4|"
+    - "&4|"

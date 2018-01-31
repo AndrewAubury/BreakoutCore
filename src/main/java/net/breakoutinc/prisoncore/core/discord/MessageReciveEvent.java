@@ -52,14 +52,15 @@ public class MessageReciveEvent extends ListenerAdapter {
         if (e.getAuthor() == null) return;
         if (e.getAuthor().isBot()) return;
 
-        if (e.isFromType(ChannelType.PRIVATE)) {
+        if (e.getChannel().getType() == ChannelType.PRIVATE) {
             String msg = bot.cfg.getConfig().getString("messages.noprivate");
             String mcuuid = bot.bridge.getMinecraftUUID(e.getAuthor().getId());
 
             OfflinePlayer op = PrisonCore.getInstance().getServer().getOfflinePlayer(UUID.fromString(mcuuid));
             DiscordOfflinePlayer dop = new DiscordOfflinePlayer(op,e.getAuthor().getId());
-            if(e.getMessage().getContent().startsWith("/")){
-                String cmd = e.getMessage().getContent().replaceFirst("/","");
+
+            if(e.getMessage().getContentRaw().startsWith("/")){
+                String cmd = e.getMessage().getContentRaw().replaceFirst("/","");
                 dop.performCommand(cmd);
                 return;
             }
@@ -82,8 +83,8 @@ public class MessageReciveEvent extends ListenerAdapter {
 
                 OfflinePlayer op = PrisonCore.getInstance().getServer().getOfflinePlayer(UUID.fromString(mcuuid));
                 DiscordOfflinePlayer dop = new DiscordOfflinePlayer(op,e.getAuthor().getId());
-                if(e.getMessage().getContent().startsWith("/")){
-                    String cmd = e.getMessage().getContent().replaceFirst("/","");
+                if(e.getMessage().getContentRaw().startsWith("/")){
+                    String cmd = e.getMessage().getContentRaw().replaceFirst("/","");
                     dop.performCommand(cmd);
                     e.getMessage().delete().complete();
                     return;
@@ -119,8 +120,8 @@ public class MessageReciveEvent extends ListenerAdapter {
                             e.getMessage().delete().complete();
                             return;
                         }
-                        if(e.getMessage().getContent().startsWith("/")){
-                            String cmd = e.getMessage().getContent().replaceFirst("/","");
+                        if(e.getMessage().getContentRaw().startsWith("/")){
+                            String cmd = e.getMessage().getContentRaw().replaceFirst("/","");
                             dop.performCommand(cmd);
                             e.getMessage().delete().complete();
                             return;
@@ -132,11 +133,11 @@ public class MessageReciveEvent extends ListenerAdapter {
                     return;
 
                 }
-                if(e.getMessage().getContent().startsWith(".announce ")){
+                if(e.getMessage().getContentRaw().startsWith(".announce ")){
                     Channel chan = bot.guild.getTextChannelById(bot.cfg.getConfig().getString("announcementchannelid"));
                     chan.getManager();
                     if(e.getMember().hasPermission(chan, Permission.MESSAGE_WRITE)){
-                        String msg = e.getMessage().getContent();
+                        String msg = e.getMessage().getContentRaw();
                         msg = msg.replaceFirst(".announce ","");
 
                         Color c = Color.decode(bot.cfg.getConfig().getString("announcementcolor"));

@@ -9,9 +9,12 @@ import net.breakoutinc.prisoncore.objects.TimePlayed;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 /**
  * Created by Andrew on 24/11/2017.
@@ -42,11 +45,13 @@ public class PrisonCore extends JavaPlugin {
         getCommand("payxp").setExecutor(new payxpCommand());
         getCommand("link").setExecutor(new LinkCommand());
         getCommand("rankupmax").setExecutor(new RankUpMaxCommand());
+        getCommand("plugin").setExecutor(new pluginCommand());
         //getCommand("pc").setExecutor(new CommandHandler());
         getServer().getPluginManager().registerEvents(new JoinEvent(), this);
         getServer().getPluginManager().registerEvents(new LeaveEvent(), this);
         getServer().getPluginManager().registerEvents(new AsyncChatEvent(), this);
         getServer().getPluginManager().registerEvents(new Enforcing2FAEvent(), this);
+        getServer().getPluginManager().registerEvents(new commandEvent(), this);
 
         new ClipPlaceHolderManager(instance).hook();
         new MVDWPlaceHolderManager(instance);

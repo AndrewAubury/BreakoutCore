@@ -146,9 +146,9 @@ public class RankManager {
         int red = 16-green;
         String bar = "";
         bar = bar+ ChatColor.GREEN;
-        bar = bar + StringUtils.repeat("|", green);
+        bar = bar + StringUtils.repeat("=", green);
         bar = bar+ ChatColor.RED;
-        bar = bar + StringUtils.repeat("|", red);
+        bar = bar + StringUtils.repeat("=", red);
         return bar;
     }
 

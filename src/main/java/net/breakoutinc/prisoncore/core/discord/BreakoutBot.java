@@ -42,10 +42,9 @@ public class BreakoutBot {
                 if(cfg.getConfig().getBoolean("isplaying")){
                     jda = new JDABuilder(AccountType.BOT)
                             .setToken(cfg.getConfig().getString("discordtoken"))
-                            .setGame(Game.of(cfg.getConfig().getString("game")))
+                            .setGame(Game.playing(cfg.getConfig().getString("game")))
                             .addEventListener(new MessageReciveEvent())
                             .buildBlocking();
-
                 }else{
                     jda = new JDABuilder(AccountType.BOT).setToken(cfg.getConfig().getString("discordtoken")).buildBlocking();
                 }

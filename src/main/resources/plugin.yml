@@ -31,3 +31,5 @@ commands:
     usage: /<command>
     description: "Reload the cores config"
     permission: prisoncore.reload
+  plugins:
+    aliases: [pl]

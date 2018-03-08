@@ -32,16 +32,17 @@ public class AnouncementManager {
             public void run() {
                 int next = AnouncementManager.getInstance().next;
                 ArrayList<String> keys = new ArrayList<>();
-                for (String s : cnf.getConfig().getConfigurationSection("announcements").getKeys(false)) {
+                for (String s : cnf.getConfig().getConfigurationSection("announcements").getKeys(true)) {
                     keys.add(s);
                 }
-                if ((next + 1) >= keys.size()) {
+                if (next >= keys.size()) {
+                    AnouncementManager.getInstance().next = 0;
                     next = 0;
                 }
                 for (String line : cnf.getConfig().getConfigurationSection("announcements").getStringList(keys.get(next))){
                     core.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', line));
             }
-              next++;
+                AnouncementManager.getInstance().next++;
             }
         },cnf.getConfig().getInt("delay")*20,cnf.getConfig().getInt("delay")*20);
     }

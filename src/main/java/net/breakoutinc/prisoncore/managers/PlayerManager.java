@@ -5,6 +5,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Created by Andrew on 25/11/2017.
@@ -22,6 +23,7 @@ public class PlayerManager {
         }
         return playermap.get(p);
     }
+
 
     public void saveAll(){
         for(PrisonPlayer p : playermap.values()){

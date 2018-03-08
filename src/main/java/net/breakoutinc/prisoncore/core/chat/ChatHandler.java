@@ -5,6 +5,7 @@ import net.breakoutinc.prisoncore.Config;
 import net.breakoutinc.prisoncore.PrisonCore;
 import net.breakoutinc.prisoncore.managers.ChatManager;
 import net.breakoutinc.prisoncore.objects.DiscordOfflinePlayer;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
@@ -18,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -69,15 +71,11 @@ public class ChatHandler {
             finalFormat = defaultFormat;
         }
         String formatString = finalFormat.getString("format");
-
+        //formatString = removeEscapeChars(formatString);
         if(!p.hasPermission("prisoncore.bypassfilter")){
             message = filterText(message);
         }
 
-//        if(p.getName().equalsIgnoreCase("ItsYahGalEmily")){
-//            message = message.replaceAll("(?i)"+ Pattern.quote("andrew"), "daddy");
-//            message = message.replaceAll("(?i)"+ Pattern.quote("andrewa2012"), "daddy");
-//        }
 
         if(p instanceof DiscordOfflinePlayer){
             String prefix = new Config(PrisonCore.getInstance().getDataFolder().getPath(),"discord.yml").getConfig().getString("messageprefix");
@@ -87,13 +85,19 @@ public class ChatHandler {
 
         String withPlaceholdersSet = PlaceholderAPI.setPlaceholders(p, formatString);
 
+        //String withPlaceholdersSet = PlaceholderAPI.setBracketPlaceholders(p,formatString);
 
         if(p.hasPermission("breakout.colorchat")){
             message = ChatColor.translateAlternateColorCodes('&',message);
+        }else{
+            message = message.replaceAll("§","&");
         }
-
         withPlaceholdersSet = withPlaceholdersSet.replaceAll("%message%","");
         withPlaceholdersSet = withPlaceholdersSet + message;
+        //withPlaceholdersSet = StringEscapeUtils.escapeJava(withPlaceholdersSet);
+        withPlaceholdersSet = StringEscapeUtils.unescapeJava(withPlaceholdersSet);
+        //withPlaceholdersSet = removeEscapeChars(withPlaceholdersSet);
+
         return withPlaceholdersSet;
     }
 
@@ -206,8 +210,19 @@ public class ChatHandler {
             replacement = replacement.replaceAll("_"," ");
 
             input = input.replaceAll("(?i)"+Pattern.quote(badWord), replacement);
+
         }
         return input;
+    }
+
+    private String removeEscapeChars(String remainingValue) {
+        Matcher matcher = Pattern.compile("\\&([^;]{6})", Pattern.CASE_INSENSITIVE).matcher(remainingValue);
+        while (matcher.find()) {
+            String before = remainingValue.substring(0, matcher.start());
+            String after = remainingValue.substring(matcher.start() + 1);
+            remainingValue = (before + after);
+        }
+        return remainingValue;
     }
 
 }

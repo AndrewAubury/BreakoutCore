@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
@@ -45,7 +47,8 @@ public class PrisonCore extends JavaPlugin {
         getCommand("payxp").setExecutor(new payxpCommand());
         getCommand("link").setExecutor(new LinkCommand());
         getCommand("rankupmax").setExecutor(new RankUpMaxCommand());
-        getCommand("plugin").setExecutor(new pluginCommand());
+        getCommand("silentmute").setExecutor(new SilentMuteCommand());
+        //getCommand("plugin").setExecutor(new pluginCommand());
         //getCommand("pc").setExecutor(new CommandHandler());
         getServer().getPluginManager().registerEvents(new JoinEvent(), this);
         getServer().getPluginManager().registerEvents(new LeaveEvent(), this);
@@ -67,7 +70,7 @@ public class PrisonCore extends JavaPlugin {
         for(Player p : getServer().getOnlinePlayers()){
             PrisonPlayer pp = pm.getPlayer(p);
             new TimePlayed(pp);
-        }
+    }
         new AnouncementManager();
         Thread bot = new Thread(new Runnable() {
             @Override
@@ -75,7 +78,7 @@ public class PrisonCore extends JavaPlugin {
                 new BreakoutBot();
             }
         });
-   bot.start();
+        bot.start();
    super.onEnable();
     }
 
@@ -130,5 +133,59 @@ public class PrisonCore extends JavaPlugin {
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
         perms = rsp.getProvider();
         return perms != null;
+    }
+
+    public String formatValue(double value)
+    {
+        if(value == 0.00){
+            return "0";
+        }
+        String suffixes = ",K, M, B, Tri, Quad, Quint, Sextil, Septil, Octil, Nonil, Decil, Undecil, Duodecil, Tredecil, Quattuordeci, Quindecillion, Sexdecil, Septendecil, Octodecil, Novemdecil, Vigintil";
+
+        String[] suffix = suffixes.split(",");
+
+        NumberFormat formatter = new DecimalFormat("#,###.#");
+        int power = (int)StrictMath.log10(value);
+        if (power == 303)
+        {
+            String formattedNumber = formatter.format(value);
+            if (formattedNumber.length() > 4)
+            {
+                StringBuilder sb = new StringBuilder(formattedNumber);
+                for (int i = 4; i < formattedNumber.length(); i++) {
+                    sb.deleteCharAt(i);
+                }
+                formattedNumber = sb.toString().replace(',', '.');
+            }
+            return formattedNumber + " Centillion";
+        }
+        if (power > 303)
+        {
+            System.out.println("Tried calculating " + Double.toString(value) + " but power was above 303 (centillion power), so returned formatted number");
+            return formatter.format(value);
+        }
+        if (power >= 100)
+        {
+            String formattedNumber = formatter.format(value);
+            String reversed = new StringBuffer(formatter.format(value).replaceAll(",", "")).reverse().toString();
+            StringBuilder sb = new StringBuilder(reversed);
+            System.out.println(formatter.format(value).replaceAll(",", ""));
+            for (int i = 0; i < 99; i++) {
+                sb.deleteCharAt(i);
+            }
+            reversed = sb.toString();
+            return formatter.format(Double.parseDouble(new StringBuffer(reversed).reverse().toString())) + " Googol";
+        }
+        value /= Math.pow(10.0D, power / 3 * 3);
+        String formattedNumber = formatter.format(value);
+        if (formattedNumber.length() > 4)
+        {
+            StringBuilder sb = new StringBuilder(formattedNumber);
+            for (int i = 4; i < formattedNumber.length(); i++) {
+                sb.deleteCharAt(i);
+            }
+            formattedNumber = sb.toString().replace(',', '.');
+        }
+        return formattedNumber + suffix[(power / 3)];
     }
 }

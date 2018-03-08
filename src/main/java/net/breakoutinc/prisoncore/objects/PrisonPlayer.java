@@ -26,15 +26,18 @@ public class PrisonPlayer {
     private String rank;
     private FileConfiguration config;
     private Config configObj;
+    private String displayName;
     private Player player;
+    private boolean silentmuted;
 
     public PrisonPlayer(Player player) {
         this.player = player;
         main = PrisonCore.getInstance();
 
-        final Config pconfig = new Config(main.getDataFolder().getPath()+"/playerdata", player.getUniqueId().toString() + ".yml");
+        Config pconfig = new Config(main.getDataFolder().getPath()+"/playerdata", player.getUniqueId().toString() + ".yml");
         pconfig.setReloader(false);
         configObj = pconfig;
+        displayName = player.getDisplayName();
         config = pconfig.getConfig();
         config.addDefault("uuid", UUID.randomUUID().toString());
         config.addDefault("onlinetime", 0);
@@ -42,13 +45,26 @@ public class PrisonPlayer {
         config.addDefault("prestige", 0);
         config.addDefault("blocksbroken", 0);
         config.addDefault("rank", PrisonCore.getInstance().getRM().getRanks().get(0));
+        config.addDefault("displayname", player.getDisplayName());
+        config.addDefault("silentmuted", false);
         config.options().copyDefaults(true);
         pconfig.save();
+        if(!config.contains("displayname")) {
+            config.set("displayname", player.getName());
+            configObj.save();
+        }
+        if(!config.contains("silentmuted")) {
+            config.set("silentmuted", false);
+            configObj.save();
+        }
+
 
         this.tickets = config.getInt("tickets");
         this.prestige = config.getInt("prestige");
         this.rank = config.getString("rank");
         this.onlinetime = config.getLong("onlinetime");
+        this.displayName = config.getString("displayname");
+        this.silentmuted = config.getBoolean("silentmuted");
     }
 
     public void save(){
@@ -56,15 +72,30 @@ public class PrisonPlayer {
         config.set("prestige",this.prestige);
         config.set("rank",this.rank);
         config.set("onlinetime",this.onlinetime);
+        config.set("displayname",this.displayName);
+        config.set("silentmuted",this.silentmuted);
         configObj.save();
     }
     public int getPrestigeInt(){
         return prestige;
     }
 
+    public boolean isSilentMuted(){
+        return silentmuted;
+    }
+
+    public void silentMute(){
+        silentmuted = true;
+    }
+
+    public void silentUnmute(){
+        silentmuted = false;
+    }
+
     public String getPrestige(){
         return prestige+"";
     }
+
     public int getTickets(){return tickets;}
     public String getRank(){return rank;}
     public Long addOnlineTime(Long time){
@@ -76,6 +107,14 @@ public class PrisonPlayer {
         return onlinetime;
     }
     public Player getPlayer(){return player;}
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
     public void prestige(){
         RankManager rm = PrisonCore.getInstance().getRM();

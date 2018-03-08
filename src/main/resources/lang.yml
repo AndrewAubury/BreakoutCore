@@ -10,6 +10,7 @@ ranksformat: "&7%from% &8&m--&8> &7%to% &8[&c$%price%&8]"
 
 maxrank: "&cYou are at the highest rank to continue please do /prestige"
 
+
 #prestige config
 prestigewarning: "&cAre you sure you wish to do this? Your mine will be set to A and your money will be reset please re-run /prestige to confirm"
 prestige: "&aYou have just prestiged to prestige %prisoncore_prestige%"
@@ -36,3 +37,6 @@ xpcantafford: "&cYou cant afford this xp transaction"
 
 xpsentto: "&aYou have just sent &c%xp%&a xp to &c%to%"
 xpsentfrom: "&aYou have just been sent &c%xp%&a xp from &c%from%"
+
+progressbar: "="
+progressbarlen: 16 #keep this a even number

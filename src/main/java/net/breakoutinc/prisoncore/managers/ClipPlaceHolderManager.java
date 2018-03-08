@@ -79,6 +79,17 @@ public class ClipPlaceHolderManager extends EZPlaceholderHook {
             return rm.getRemaining(p)+"";
         }
 
+        if (identifier.equals("prettyremaining")) {
+            RankManager rm = PrisonCore.getInstance().getRM();
+            return PrisonCore.getInstance().formatValue(rm.getRemaining(p))+"";
+        }
+
+        if (identifier.equals("prettybal")) {
+            RankManager rm = PrisonCore.getInstance().getRM();
+            return PrisonCore.getInstance().formatValue(PrisonCore.getEcon().getBalance(p))+"";
+        }
+
+
         // anything else someone types is invalid because we never defined %customplaceholder_<what they want a value for>%
         // we can just return null so the placeholder they specified is not replaced.
         return null;

@@ -13,8 +13,12 @@ public class Config {
     private File file;
     private FileConfiguration fileConfig;
     public boolean dontReload;
+    String path;
+    String fileName;
 
     public Config(String path, String fileName) {
+        this.path = path;
+        this.fileName = fileName;
         PrisonCore main = PrisonCore.getInstance();
         dontReload = true;
         file = new File(path, fileName);
@@ -52,10 +56,16 @@ public class Config {
         }
         this.fileConfig = fileConfig;
     }
+    public String getName(){
+        return fileName;
+    }
     public void setReloader(boolean shouldreload){
         dontReload = shouldreload;
     }
+
     public void save() {
+        file = new File(path, fileName);
+
         try {
             fileConfig.save(file);
         } catch (Exception e) {

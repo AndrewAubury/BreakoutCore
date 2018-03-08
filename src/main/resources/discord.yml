@@ -14,7 +14,7 @@ tfaperm: prisoncore.tfa
 announcementcolor: "#ff0000"
 
 messageprefix: "&8[&7Discord&8] "
-
+maxmsg: 128
 messages:
   linkcode: "To Confirm your account please type the following command in minecraft \n /link %code%"
   noprivate: "Im not meant to handle private messages :sob:"

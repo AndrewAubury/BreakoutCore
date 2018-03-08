@@ -23,7 +23,7 @@ public class LeaveEvent implements Listener {
             BreakoutBot bb = BreakoutBot.getInstance();
             String noColor = ChatColor.stripColor(":heavy_minus_sign: "+e.getPlayer().getName()   +" has left the server");
             bb.sendChatToDiscord(noColor);
-            bb.updateTopic();
+            bb.updateTopic(PrisonCore.getInstance().getServer().getOnlinePlayers().size()-1);
         }
     }
 }

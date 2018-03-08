@@ -7,10 +7,15 @@
 
 package net.breakoutinc.prisoncore.objects;
 
+import net.breakoutinc.prisoncore.Config;
 import net.breakoutinc.prisoncore.PrisonCore;
+import net.breakoutinc.prisoncore.core.chat.ChatHandler;
 import net.breakoutinc.prisoncore.core.discord.BreakoutBot;
+import net.breakoutinc.prisoncore.events.AsyncChatEvent;
+import net.breakoutinc.prisoncore.managers.PlayerManager;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -55,8 +60,22 @@ public class DiscordOfflinePlayer implements Player {
 
     @Override
     public String getDisplayName() {
-        //PrisonCore.getChat().getPlayer;
-        return op.getName();
+        Config pconfig = new Config(PrisonCore.getInstance().getDataFolder().getPath()+"/playerdata", op.getUniqueId().toString() + ".yml");
+        pconfig.setReloader(false);
+        try{
+
+
+            if(pconfig.getConfig().contains("displayname")){
+               return pconfig.getConfig().getString("displayname");
+            }else{
+                return PrisonCore.getInstance().getServer().getPlayer(op.getUniqueId()).getDisplayName();
+
+            }
+
+        }catch(Exception e){
+            return op.getName();
+
+        }
     }
 
     @Override
@@ -129,8 +148,18 @@ public class DiscordOfflinePlayer implements Player {
     public void chat(String s) {
        // new AsyncPlayerChatEvent()
         Set<Player> set = new HashSet<>(PrisonCore.getInstance().getServer().getOnlinePlayers());
-        AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(true,this,s,set);
+        AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false,this,s,set);
         PrisonCore.getInstance().getServer().getPluginManager().callEvent(e);
+        ChatHandler chat = AsyncChatEvent.getInstance().getChat();
+        if(!e.isCancelled()){
+            for(Player p :set){
+                String message = e.getMessage();
+
+                message = chat.formatMessage(e.getPlayer(),message);
+
+                p.sendMessage(message);
+            }
+        }
     }
 
     @Override

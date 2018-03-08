@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -141,14 +142,15 @@ public class RankManager {
         main.getPerms().playerAddGroup(null,p.getPlayer(),p.getRank());
     }
     public String getProgressBar(Player p){
+        final FileConfiguration config = new Config(main.getDataFolder().getPath(), "lang.yml").getConfig();
         double progress = this.getPercentage(p);
-        int green = (int) ((16.00 / 100.00) * progress);
-        int red = 16-green;
+        int green = (int) ((config.getDouble("progressbarlen") / 100.00) * progress);
+        int red = config.getInt("progressbarlen")-green;
         String bar = "";
         bar = bar+ ChatColor.GREEN;
-        bar = bar + StringUtils.repeat("=", green);
+        bar = bar + StringUtils.repeat(config.getString("progressbar"), green);
         bar = bar+ ChatColor.RED;
-        bar = bar + StringUtils.repeat("=", red);
+        bar = bar + StringUtils.repeat(config.getString("progressbar"), red);
         return bar;
     }
 

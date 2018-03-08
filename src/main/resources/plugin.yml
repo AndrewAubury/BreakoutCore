@@ -1,7 +1,7 @@
 name: BreakoutCore
 version: 1.0.0
 main: net.breakoutinc.prisoncore.PrisonCore
-description: The Custom Prison Core for BreakOutINC
+description: The Custom PrisonCore for BreakOutINC
 authors: [AndrewAubury, PiggyPiglet]
 commands:
   rankup:
@@ -31,5 +31,10 @@ commands:
     usage: /<command>
     description: "Reload the cores config"
     permission: prisoncore.reload
+  silentmute:
+    usage: /<command> [player]
+    description: "Silent mute someone so they see there own messages but only they see them"
+    permission: prisoncore.silentmute
+    aliases: [sm]
   plugins:
     aliases: [pl]

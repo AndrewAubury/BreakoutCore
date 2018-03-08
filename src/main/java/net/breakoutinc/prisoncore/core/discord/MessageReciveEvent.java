@@ -7,6 +7,7 @@
 
 package net.breakoutinc.prisoncore.core.discord;
 
+import net.breakoutinc.prisoncore.Config;
 import net.breakoutinc.prisoncore.PrisonCore;
 import net.breakoutinc.prisoncore.core.chat.ChatHandler;
 import net.breakoutinc.prisoncore.objects.DiscordOfflinePlayer;
@@ -24,11 +25,15 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.react.PrivateMessageReactionRemoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -110,7 +115,7 @@ public class MessageReciveEvent extends ListenerAdapter {
                     if(mcuuid == null){
                         e.getMessage().delete().queue();
                     }
-                    e.getMessage().getContentRaw();
+
                     OfflinePlayer op = PrisonCore.getInstance().getServer().getOfflinePlayer(UUID.fromString(mcuuid));
                     DiscordOfflinePlayer dop = new DiscordOfflinePlayer(op,e.getAuthor().getId());
 
@@ -126,8 +131,8 @@ public class MessageReciveEvent extends ListenerAdapter {
                             e.getMessage().delete().complete();
                             return;
                         }
-
-                        dop.chat(e.getMessage().getContentStripped());
+                        Config cfg = new Config(core.getDataFolder().getPath(),"discord.yml");
+                       dop.chat(StringUtils.abbreviate(e.getMessage().getContentStripped(),cfg.getConfig().getInt("maxmsg")));
                     }
                     e.getMessage().delete().queue();
                     return;

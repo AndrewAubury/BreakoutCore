@@ -15,6 +15,7 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import org.bukkit.entity.Player;
 
 import javax.security.auth.login.LoginException;
 
@@ -46,9 +47,9 @@ public class BreakoutBot {
                             .addEventListener(new MessageReciveEvent())
                             .buildBlocking();
                 }else{
-                    jda = new JDABuilder(AccountType.BOT).setToken(cfg.getConfig().getString("discordtoken")).buildBlocking();
+                    jda = new JDABuilder(AccountType.BOT).setToken(cfg.getConfig().getString("discordtoken")).addEventListener(new MessageReciveEvent()).buildBlocking();
                 }
-                guild = jda.getGuilds().get(0);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -70,11 +71,25 @@ public class BreakoutBot {
         return enabled;
     }
     public void sendChatToDiscord(String message){
+        guild = jda.getGuilds().get(0);
         String cid = bot.cfg.getConfig().getString("chatchannelid");
         guild.getTextChannelById(cid).sendMessage(message).queue();
     }
-    public void updateTopic(){
+    public void updateTopic(int count){
+        guild = jda.getGuilds().get(0);
         String cid = bot.cfg.getConfig().getString("chatchannelid");
-        guild.getTextChannelById(cid).getManager().setTopic("There are "+core.getServer().getOnlinePlayers().size()+" players are online");
+        if(count == 0){
+            guild.getTextChannelById(cid).getManager().setTopic("There are no players online").queue();
+        }else if(count == 1){
+            Player p = null;
+            for(Player pp: core.getServer().getOnlinePlayers()){
+                p = pp;
+            }
+            guild.getTextChannelById(cid).getManager().setTopic("Only "+p.getName()+" is online").queue();
+
+        }else{
+            guild.getTextChannelById(cid).getManager().setTopic("There are "+core.getServer().getOnlinePlayers().size()+" players online").queue();
+
+        }
     }
 }

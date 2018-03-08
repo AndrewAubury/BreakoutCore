@@ -20,12 +20,14 @@ public class JoinEvent implements Listener {
         TimePlayed time = new TimePlayed(prisonPlayer);
         time.StartRecording();
 
+
+
         PrisonCore.getInstance().getLogger().info("Starting to log player online time for "+e.getPlayer().getName());
         if(BreakoutBot.getInstance().isEnabled()){
             BreakoutBot bb = BreakoutBot.getInstance();
             String noColor = ChatColor.stripColor(":heavy_plus_sign: "+e.getPlayer().getName()   +" has joined the server");
             bb.sendChatToDiscord(noColor);
-            bb.updateTopic();
+            bb.updateTopic(PrisonCore.getInstance().getServer().getOnlinePlayers().size());
             PrisonCore.getInstance().getServer().getScheduler().runTaskAsynchronously(PrisonCore.getInstance(),
                     new Runnable() {
                         @Override

@@ -125,7 +125,7 @@ public class StaffTFA{
             core.getServer().getScheduler().runTask(core, new Runnable() {
                 @Override
                 public void run() {
-                    p.kickPlayer("Temp system for tfa (line 106ish in StaffTFA.class)");
+                    p.kickPlayer("Temp system for tfa (line 127ish in StaffTFA class)");
                 }
             });
         }

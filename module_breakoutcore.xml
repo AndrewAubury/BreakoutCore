@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_breakoutcore" default="compile.module.breakoutcore">
+  <dirname property="module.breakoutcore.basedir" file="${ant.file.module_breakoutcore}"/>
+  
+  <property name="module.jdk.home.breakoutcore" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.breakoutcore" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.breakoutcore" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.breakoutcore" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="breakoutcore.output.dir" value="${module.breakoutcore.basedir}/target/classes"/>
+  <property name="breakoutcore.testoutput.dir" value="${module.breakoutcore.basedir}/target/test-classes"/>
+  
+  <path id="breakoutcore.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="breakoutcore.module.production.classpath">
+    <path refid="${module.jdk.classpath.breakoutcore}"/>
+    <path refid="library.maven:_org.bukkit:bukkit:1.8-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:17.0.classpath"/>
+    <path refid="library.maven:_org.avaje:ebean:2.8.1.classpath"/>
+    <path refid="library.maven:_javax.persistence:persistence-api:1.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.14.classpath"/>
+    <path refid="library.maven:_net.milkbowl.vault:vaultapi:1.6.classpath"/>
+    <path refid="library.maven:_me.clip:placeholderapi:2.8.2.classpath"/>
+    <path refid="library.maven:_net.dv8tion:jda:3.5.1_343.classpath"/>
+    <path refid="library.maven:_com.google.code.findbugs:jsr305:3.0.2.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-collections4:4.1.classpath"/>
+    <path refid="library.maven:_org.json:json:20160810.classpath"/>
+    <path refid="library.maven:_net.sf.trove4j:trove4j:3.0.3.classpath"/>
+    <path refid="library.maven:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.maven:_com.neovisionaries:nv-websocket-client:2.2.classpath"/>
+    <path refid="library.maven:_com.squareup.okhttp3:okhttp:3.8.1.classpath"/>
+    <path refid="library.maven:_com.squareup.okio:okio:1.13.0.classpath"/>
+    <path refid="library.maven:_be.maximvdw:mvdwplaceholderapi:2.3.1-snapshot.classpath"/>
+    <path refid="library.maven:_be.maximvdw:mvdwupdater:1.6.0-snapshot.classpath"/>
+    <path refid="library.maven:_org.spigotmc:spigot:1.9.classpath"/>
+  </path>
+  
+  <path id="breakoutcore.runtime.production.module.classpath">
+    <pathelement location="${breakoutcore.output.dir}"/>
+    <path refid="library.maven:_net.dv8tion:jda:3.5.1_343.classpath"/>
+    <path refid="library.maven:_com.google.code.findbugs:jsr305:3.0.2.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-collections4:4.1.classpath"/>
+    <path refid="library.maven:_org.json:json:20160810.classpath"/>
+    <path refid="library.maven:_net.sf.trove4j:trove4j:3.0.3.classpath"/>
+    <path refid="library.maven:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.maven:_com.neovisionaries:nv-websocket-client:2.2.classpath"/>
+    <path refid="library.maven:_com.squareup.okhttp3:okhttp:3.8.1.classpath"/>
+    <path refid="library.maven:_com.squareup.okio:okio:1.13.0.classpath"/>
+    <path refid="library.maven:_be.maximvdw:mvdwplaceholderapi:2.3.1-snapshot.classpath"/>
+    <path refid="library.maven:_be.maximvdw:mvdwupdater:1.6.0-snapshot.classpath"/>
+    <path refid="library.maven:_org.spigotmc:spigot:1.9.classpath"/>
+  </path>
+  
+  <path id="breakoutcore.module.classpath">
+    <path refid="${module.jdk.classpath.breakoutcore}"/>
+    <pathelement location="${breakoutcore.output.dir}"/>
+    <path refid="library.maven:_org.bukkit:bukkit:1.8-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:17.0.classpath"/>
+    <path refid="library.maven:_org.avaje:ebean:2.8.1.classpath"/>
+    <path refid="library.maven:_javax.persistence:persistence-api:1.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.14.classpath"/>
+    <path refid="library.maven:_net.milkbowl.vault:vaultapi:1.6.classpath"/>
+    <path refid="library.maven:_me.clip:placeholderapi:2.8.2.classpath"/>
+    <path refid="library.maven:_net.dv8tion:jda:3.5.1_343.classpath"/>
+    <path refid="library.maven:_com.google.code.findbugs:jsr305:3.0.2.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-collections4:4.1.classpath"/>
+    <path refid="library.maven:_org.json:json:20160810.classpath"/>
+    <path refid="library.maven:_net.sf.trove4j:trove4j:3.0.3.classpath"/>
+    <path refid="library.maven:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.maven:_com.neovisionaries:nv-websocket-client:2.2.classpath"/>
+    <path refid="library.maven:_com.squareup.okhttp3:okhttp:3.8.1.classpath"/>
+    <path refid="library.maven:_com.squareup.okio:okio:1.13.0.classpath"/>
+    <path refid="library.maven:_be.maximvdw:mvdwplaceholderapi:2.3.1-snapshot.classpath"/>
+    <path refid="library.maven:_be.maximvdw:mvdwupdater:1.6.0-snapshot.classpath"/>
+    <path refid="library.maven:_org.spigotmc:spigot:1.9.classpath"/>
+  </path>
+  
+  <path id="breakoutcore.runtime.module.classpath">
+    <pathelement location="${breakoutcore.testoutput.dir}"/>
+    <pathelement location="${breakoutcore.output.dir}"/>
+    <path refid="library.maven:_org.bukkit:bukkit:1.8-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:17.0.classpath"/>
+    <path refid="library.maven:_org.avaje:ebean:2.8.1.classpath"/>
+    <path refid="library.maven:_javax.persistence:persistence-api:1.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.14.classpath"/>
+    <path refid="library.maven:_net.milkbowl.vault:vaultapi:1.6.classpath"/>
+    <path refid="library.maven:_me.clip:placeholderapi:2.8.2.classpath"/>
+    <path refid="library.maven:_net.dv8tion:jda:3.5.1_343.classpath"/>
+    <path refid="library.maven:_com.google.code.findbugs:jsr305:3.0.2.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-collections4:4.1.classpath"/>
+    <path refid="library.maven:_org.json:json:20160810.classpath"/>
+    <path refid="library.maven:_net.sf.trove4j:trove4j:3.0.3.classpath"/>
+    <path refid="library.maven:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.maven:_com.neovisionaries:nv-websocket-client:2.2.classpath"/>
+    <path refid="library.maven:_com.squareup.okhttp3:okhttp:3.8.1.classpath"/>
+    <path refid="library.maven:_com.squareup.okio:okio:1.13.0.classpath"/>
+    <path refid="library.maven:_be.maximvdw:mvdwplaceholderapi:2.3.1-snapshot.classpath"/>
+    <path refid="library.maven:_be.maximvdw:mvdwupdater:1.6.0-snapshot.classpath"/>
+    <path refid="library.maven:_org.spigotmc:spigot:1.9.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.breakoutcore">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.breakoutcore">
+    <patternset refid="excluded.from.module.breakoutcore"/>
+  </patternset>
+  
+  <path id="breakoutcore.module.sourcepath">
+    <dirset dir="${module.breakoutcore.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="breakoutcore.module.test.sourcepath">
+    <dirset dir="${module.breakoutcore.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.breakoutcore" depends="compile.module.breakoutcore.production,compile.module.breakoutcore.tests" description="Compile module BreakoutCore"/>
+  
+  <target name="compile.module.breakoutcore.production" depends="register.custom.compilers" description="Compile module BreakoutCore; production classes">
+    <mkdir dir="${breakoutcore.output.dir}"/>
+    <javac2 destdir="${breakoutcore.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.breakoutcore}/javac">
+      <compilerarg line="${compiler.args.breakoutcore}"/>
+      <bootclasspath refid="breakoutcore.module.bootclasspath"/>
+      <classpath refid="breakoutcore.module.production.classpath"/>
+      <src refid="breakoutcore.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.breakoutcore"/>
+    </javac2>
+    
+    <copy todir="${breakoutcore.output.dir}">
+      <fileset dir="${module.breakoutcore.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.breakoutcore.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.breakoutcore.tests" depends="register.custom.compilers,compile.module.breakoutcore.production" description="compile module BreakoutCore; test classes" unless="skip.tests">
+    <mkdir dir="${breakoutcore.testoutput.dir}"/>
+    <javac2 destdir="${breakoutcore.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.breakoutcore}/javac">
+      <compilerarg line="${compiler.args.breakoutcore}"/>
+      <bootclasspath refid="breakoutcore.module.bootclasspath"/>
+      <classpath refid="breakoutcore.module.classpath"/>
+      <src refid="breakoutcore.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.breakoutcore"/>
+    </javac2>
+    
+    <copy todir="${breakoutcore.testoutput.dir}">
+      <fileset dir="${module.breakoutcore.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.breakoutcore" description="cleanup module">
+    <delete dir="${breakoutcore.output.dir}"/>
+    <delete dir="${breakoutcore.testoutput.dir}"/>
+  </target>
+</project>

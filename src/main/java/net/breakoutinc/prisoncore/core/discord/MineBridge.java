@@ -38,6 +38,7 @@ public class MineBridge {
     public MineBridge() {
         playermap = new HashMap<>();
         bot = BreakoutBot.getInstance();
+
         core = bot.core;
         jda = bot.jda;
         guild = bot.guild;
@@ -76,23 +77,29 @@ public class MineBridge {
         return playermap.containsKey(DiscordID);
     }
 
-    public void assignRole(String discordid){
-        Role r = guild.getRoleById(Long.parseLong(bot.cfg.getConfig().getString("linkedrole")));
-        User u = jda.getUserById(Long.parseLong(discordid));
-        Member m = guild.getMember(u);
+    public void assignRole(JDA jda,String discordid){
+        Config cfg = new Config(core.getDataFolder().getPath(),"discord.yml");
+        //Role r = guild.getRoleById(Long.parseLong(bot.cfg.getConfig().getString("linkedrole")));
+
+        Role r = jda.getGuilds().get(0).getRolesByName(cfg.getConfig().getString("linkedrole"),true).get(0);
+
+        User u = jda.getUserById(discordid);
+
+        Member m = jda.getGuilds().get(0).getMember(u);
         if(!m.getRoles().contains(r.getName())){
-            guild.getController().addSingleRoleToMember(m,r);
+            jda.getGuilds().get(0).getController().addSingleRoleToMember(m,r);
         }
-        guild.getController().addSingleRoleToMember(m,r).queue();
+        jda.getGuilds().get(0).getController().addSingleRoleToMember(m,r).queue();
     }
 
     public boolean isCode(String code){
         return codes.containsKey(code);
     }
+
     public void verifyCode(Player p, String code){
         if(isCode(code)){
             addLink(codes.get(code),p.getUniqueId().toString());
-            assignRole(codes.get(code));
+            assignRole(this.bot.jda,codes.get(code));
             codes.remove(code);
         }
     }

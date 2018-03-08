@@ -45,5 +45,19 @@ public class MVDWPlaceHolderManager {
             }
         });
 
+        PlaceholderAPI.registerPlaceholder(main, "prettybal", new PlaceholderReplacer(){
+            @Override
+            public String onPlaceholderReplace(PlaceholderReplaceEvent e) {
+                return me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(e.getPlayer(), "%prisoncore_prettybal%");
+            }
+        });
+
+        PlaceholderAPI.registerPlaceholder(main, "prettyremaining", new PlaceholderReplacer(){
+            @Override
+            public String onPlaceholderReplace(PlaceholderReplaceEvent e) {
+                return me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(e.getPlayer(), "%prisoncore_prettyremaining%");
+            }
+        });
+
     }
 }

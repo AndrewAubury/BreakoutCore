@@ -1,11 +1,19 @@
 package net.breakoutinc.prisoncore.objects;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.breakoutinc.prisoncore.Config;
 import net.breakoutinc.prisoncore.PrisonCore;
 import net.breakoutinc.prisoncore.managers.RankManager;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -21,6 +29,7 @@ public class PrisonPlayer {
 
     private TimePlayed timeLogger;
     private int tickets;
+    private int tokens;
     private int prestige;
     private Long onlinetime;
     private String rank;
@@ -47,6 +56,7 @@ public class PrisonPlayer {
         config.addDefault("rank", PrisonCore.getInstance().getRM().getRanks().get(0));
         config.addDefault("displayname", player.getDisplayName());
         config.addDefault("silentmuted", false);
+        config.addDefault("tokens", 0);
         config.options().copyDefaults(true);
         pconfig.save();
         if(!config.contains("displayname")) {
@@ -59,6 +69,7 @@ public class PrisonPlayer {
         }
 
 
+        this.tokens = config.getInt("tokens");
         this.tickets = config.getInt("tickets");
         this.prestige = config.getInt("prestige");
         this.rank = config.getString("rank");
@@ -97,6 +108,9 @@ public class PrisonPlayer {
     }
 
     public int getTickets(){return tickets;}
+
+    public int getTokens(){return tokens;}
+
     public String getRank(){return rank;}
     public Long addOnlineTime(Long time){
         onlinetime =+ time;
@@ -130,6 +144,26 @@ public class PrisonPlayer {
     public void fixPerms(){
         RankManager rm = PrisonCore.getInstance().getRM();
         rm.fix(this);
+    }
+
+    public void setTabListHeader(){
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        PacketContainer pc = protocolManager.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
+
+        String header = PlaceholderAPI.setPlaceholders(player, StringUtils.join(PrisonCore.getInstance().miscConfig.getConfig().getStringList("tab-header"), "\n"));
+        String footer = PlaceholderAPI.setPlaceholders(player, StringUtils.join(PrisonCore.getInstance().miscConfig.getConfig().getStringList("tab-footer"), "\n"));
+
+
+        pc.getChatComponents().write(0, WrappedChatComponent.fromText(ChatColor.translateAlternateColorCodes('&',header)))
+                .write(1, WrappedChatComponent.fromText(ChatColor.translateAlternateColorCodes('&',footer)));
+        try
+        {
+            protocolManager.sendServerPacket(this.getPlayer(), pc);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     public void rankup(){

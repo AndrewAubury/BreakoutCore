@@ -84,9 +84,8 @@ public class DiscordOfflinePlayer implements Player {
     }
 
     @Override
-    public String getPlayerListName() {
-        //return (""+ u.getId()).substring(0,15);
-    return null;
+    public String getPlayerListName() { return (""+ u.getId()).substring(0,15);
+    //return null;
     }
 
     @Override
@@ -148,7 +147,7 @@ public class DiscordOfflinePlayer implements Player {
     public void chat(String s) {
        // new AsyncPlayerChatEvent()
         Set<Player> set = new HashSet<>(PrisonCore.getInstance().getServer().getOnlinePlayers());
-        AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false,this,s,set);
+        AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false ,this,s,set);
         PrisonCore.getInstance().getServer().getPluginManager().callEvent(e);
         ChatHandler chat = AsyncChatEvent.getInstance().getChat();
         if(!e.isCancelled()){

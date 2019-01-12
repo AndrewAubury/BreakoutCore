@@ -67,6 +67,9 @@ public class ClipPlaceHolderManager extends EZPlaceholderHook {
         if (identifier.equals("progress")) {
             return PrisonCore.getInstance().getRM().getProgressBar(p);
         }
+        if(identifier.equals("percent")){
+            return PrisonCore.getInstance().getRM().getPercentage(p)+"%";
+        }
         if (identifier.equals("minenext")) {
             RankManager rm = PrisonCore.getInstance().getRM();
             if(rm.isMax(p)){
@@ -87,6 +90,9 @@ public class ClipPlaceHolderManager extends EZPlaceholderHook {
         if (identifier.equals("prettybal")) {
             RankManager rm = PrisonCore.getInstance().getRM();
             return PrisonCore.getInstance().formatValue(PrisonCore.getEcon().getBalance(p))+"";
+        }
+        if (identifier.equals("maxslots")) {
+            return PrisonCore.getInstance().miscConfig.getConfig().getInt("slots")+"";
         }
 
 

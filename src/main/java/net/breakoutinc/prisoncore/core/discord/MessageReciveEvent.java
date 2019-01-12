@@ -82,7 +82,7 @@ public class MessageReciveEvent extends ListenerAdapter {
             if (e.getMember() == null) return;
             if (e.getAuthor().isBot()) return;
 
-            if (e.isFromType(ChannelType.PRIVATE)) {
+            if (e.getMessage().getChannelType().equals(ChannelType.PRIVATE)) {
                 String msg = bot.cfg.getConfig().getString("messages.noprivate");
                 String mcuuid = bot.bridge.getMinecraftUUID(e.getAuthor().getId());
 

@@ -3,20 +3,20 @@ package net.breakoutinc.prisoncore;
 import net.breakoutinc.prisoncore.commands.*;
 import net.breakoutinc.prisoncore.core.discord.BreakoutBot;
 import net.breakoutinc.prisoncore.events.*;
+import net.breakoutinc.prisoncore.islands.managers.IslandCommandHandler;
 import net.breakoutinc.prisoncore.managers.*;
 import net.breakoutinc.prisoncore.objects.PrisonPlayer;
 import net.breakoutinc.prisoncore.objects.TimePlayed;
+import net.dv8tion.jda.core.entities.Role;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 
 /**
  * Created by Andrew on 24/11/2017.
@@ -24,6 +24,8 @@ import java.util.List;
 
 public class PrisonCore extends JavaPlugin {
     private static PrisonCore instance;
+
+    public Config miscConfig = new Config(getDataFolder().getPath(),"misc.yml");
 
     private PlayerManager pm;
     private static Economy econ = null;
@@ -36,10 +38,11 @@ public class PrisonCore extends JavaPlugin {
     }
     @Override
     public void onEnable() {
+//        getLogger().addHandler();
         instance = this;
         pm = new PlayerManager();
 
-        //getCommand("timetest").setExecutor(new CommandHandler());
+        //getCommand("timetest").setExecutor(new IslandCommandHandler());
         getCommand("rankup").setExecutor(new RankUpCommand());
         getCommand("prestige").setExecutor(new PrestigeCommand());
         getCommand("ranks").setExecutor(new RanksCommand());
@@ -48,13 +51,15 @@ public class PrisonCore extends JavaPlugin {
         getCommand("link").setExecutor(new LinkCommand());
         getCommand("rankupmax").setExecutor(new RankUpMaxCommand());
         getCommand("silentmute").setExecutor(new SilentMuteCommand());
-        //getCommand("plugin").setExecutor(new pluginCommand());
-        //getCommand("pc").setExecutor(new CommandHandler());
+        // getCommand("prisoncoretest").setExecutor(new TestCommand());
+        // getCommand("plugins").setExecutor(new pluginCommand());
+        getCommand("island").setExecutor(new IslandCommandHandler());
         getServer().getPluginManager().registerEvents(new JoinEvent(), this);
         getServer().getPluginManager().registerEvents(new LeaveEvent(), this);
         getServer().getPluginManager().registerEvents(new AsyncChatEvent(), this);
         getServer().getPluginManager().registerEvents(new Enforcing2FAEvent(), this);
         getServer().getPluginManager().registerEvents(new commandEvent(), this);
+        getServer().getPluginManager().registerEvents(new IslandBlockEvent(), this);
 
         new ClipPlaceHolderManager(instance).hook();
         new MVDWPlaceHolderManager(instance);
@@ -72,12 +77,7 @@ public class PrisonCore extends JavaPlugin {
             new TimePlayed(pp);
     }
         new AnouncementManager();
-        Thread bot = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                new BreakoutBot();
-            }
-        });
+        Thread bot = new Thread((Runnable) () -> new BreakoutBot());
         bot.start();
    super.onEnable();
     }
@@ -87,7 +87,12 @@ public class PrisonCore extends JavaPlugin {
         pm.saveAll();
         if(BreakoutBot.getInstance().bridge != null){
             BreakoutBot.getInstance().bridge.save();
-            BreakoutBot.getInstance().getJDA().shutdownNow();
+            Role r = BreakoutBot.getInstance().getLinkedRole();
+            BreakoutBot.getInstance().getChatChannel().putPermissionOverride(r).setDeny(net.dv8tion.jda.core.Permission.MESSAGE_READ, net.dv8tion.jda.core.Permission.MESSAGE_WRITE).complete();
+
+
+            //BreakoutBot.getInstance().getJDA().shutdownNow();
+
         }
     }
 

@@ -25,5 +25,6 @@ public class LeaveEvent implements Listener {
             bb.sendChatToDiscord(noColor);
             bb.updateTopic(PrisonCore.getInstance().getServer().getOnlinePlayers().size()-1);
         }
+        PrisonCore.getInstance().getServer().getOnlinePlayers().forEach(p -> PrisonCore.getInstance().getPM().getPlayer(p).setTabListHeader());
     }
 }

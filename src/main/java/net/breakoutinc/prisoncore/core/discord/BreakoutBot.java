@@ -14,10 +14,9 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.TextChannel;
 import org.bukkit.entity.Player;
-
-import javax.security.auth.login.LoginException;
 
 /**
  * Created by Andrew on 14/12/2017.
@@ -55,7 +54,10 @@ public class BreakoutBot {
             }
             bridge = new MineBridge();
             stafftfa = new StaffTFA();
-            //jda.addEventListener(new MessageReciveEvent());
+            Role r = getLinkedRole();
+
+           getChatChannel().putPermissionOverride(r).setAllow(net.dv8tion.jda.core.Permission.MESSAGE_READ, net.dv8tion.jda.core.Permission.MESSAGE_WRITE).complete();
+
         }
     }
 
@@ -70,11 +72,22 @@ public class BreakoutBot {
     public boolean isEnabled(){
         return enabled;
     }
+
     public void sendChatToDiscord(String message){
         guild = jda.getGuilds().get(0);
         String cid = bot.cfg.getConfig().getString("chatchannelid");
         guild.getTextChannelById(cid).sendMessage(message).queue();
     }
+    public TextChannel getChatChannel(){
+        guild = jda.getGuilds().get(0);
+        String cid = bot.cfg.getConfig().getString("chatchannelid");
+        return guild.getTextChannelById(cid);
+    }
+
+    public Role getLinkedRole(){
+        return jda.getGuilds().get(0).getRolesByName(cfg.getConfig().getString("linkedrole"),true).get(0);
+    }
+
     public void updateTopic(int count){
         guild = jda.getGuilds().get(0);
         String cid = bot.cfg.getConfig().getString("chatchannelid");

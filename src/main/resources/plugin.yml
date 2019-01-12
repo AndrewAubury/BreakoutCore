@@ -1,12 +1,16 @@
-name: BreakoutCore
+name: PrisonCore
 version: 1.0.0
 main: net.breakoutinc.prisoncore.PrisonCore
-description: The Custom PrisonCore for BreakOutINC
+description: The Custom PrisonCore for InmateIslands
+softdepend:
+  - "ProtocolLib"
+  - "WorldEdit"
+  - "WorldGuard"
 authors: [AndrewAubury, PiggyPiglet]
 commands:
   rankup:
     usage: /<command>
-    description: "The rankup command in BreakoutCore"
+    description: "The rankup command in InmateIslands"
     permission: prisoncore.rankup
     aliases: [ru]
   rankupmax:
@@ -36,5 +40,7 @@ commands:
     description: "Silent mute someone so they see there own messages but only they see them"
     permission: prisoncore.silentmute
     aliases: [sm]
-  plugins:
-    aliases: [pl]
+  island:
+    description: "The base command for Inmates to manage their islands"
+    permission: prisoncore.island
+    aliases: [is, plot, p]

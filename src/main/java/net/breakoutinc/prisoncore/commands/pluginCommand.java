@@ -15,7 +15,7 @@ public class pluginCommand implements CommandExecutor {
 
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        chat.sendMessage((Player)sender,"&fPlugins (4): &aBreakoutCore&f, &a&aAndrews&f, &aCustom&f, &aPlugins",false);
-        return false;
+        chat.sendMessage((Player)sender,"&fPlugins (4): &aEssentials, &aInmateIslandCore&f, &a&aAndrews&f, &aCustom&f, &aPlugins",false);
+        return true;
     }
 }

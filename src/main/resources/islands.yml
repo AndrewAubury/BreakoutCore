@@ -1,0 +1,10 @@
+island-schematic: "island.schematic"
+water-level: 64.00
+island-chunks: 8
+spacer-chunks: 2
+
+island-world: "island_world"
+
+start-chunks:
+  X: 0
+  Y: 0

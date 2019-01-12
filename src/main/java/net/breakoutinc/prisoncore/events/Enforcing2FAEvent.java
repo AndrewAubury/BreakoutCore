@@ -28,68 +28,68 @@ import org.bukkit.util.Vector;
  */
 public class Enforcing2FAEvent implements Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerMove(PlayerMoveEvent e){
-        if(BreakoutBot.getInstance() == null){
-            return;
-        }
-        if(e.isCancelled()){
-            return;
-        }
-        if (BreakoutBot.getInstance().stafftfa.awatingtfa(e.getPlayer())){
-            Location loc = e.getFrom();
-            loc.setX(loc.getBlockX()+0.5);
-            loc.setY(loc.getBlockY());
-            loc.setZ(loc.getBlockZ()+0.5);
-            e.getPlayer().teleport(loc);
-            e.setCancelled(true);
-        }
-
-    }
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerChat(AsyncPlayerChatEvent e){
-        if(BreakoutBot.getInstance() == null){
-            return;
-        }
-        if(e.isCancelled()){
-            return;
-        }
-        e.setCancelled(BreakoutBot.getInstance().stafftfa.awatingtfa(e.getPlayer()));
-    }
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onCommandProcess(PlayerCommandPreprocessEvent e){
-        if(BreakoutBot.getInstance() == null){
-            return;
-        }
-        if(e.isCancelled()){
-            return;
-        }
-        e.setCancelled(BreakoutBot.getInstance().stafftfa.awatingtfa(e.getPlayer()));
-    }
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerInteract(PlayerInteractEvent e){
-        if(BreakoutBot.getInstance() == null){
-            return;
-        }
-        if(e.isCancelled()){
-            return;
-        }
-        if(!BreakoutBot.getInstance().stafftfa.RequestTFA(e.getPlayer())){
-            return;
-        }
-        e.setCancelled(BreakoutBot.getInstance().stafftfa.awatingtfa(e.getPlayer()));
-    }
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onInventoryEvent(InventoryClickEvent e){
-        if(e.getInventory().getType() == InventoryType.CRAFTING){
-            //Happy now XD
-            return;
-        }
-        if(BreakoutBot.getInstance() == null){
-            return;
-        }
-        e.setCancelled(BreakoutBot.getInstance().stafftfa.awatingtfa((Player) e.getWhoClicked()));
-    }
-
+//    @EventHandler(priority = EventPriority.LOWEST)
+//    public void onPlayerMove(PlayerMoveEvent e){
+//        if(BreakoutBot.getInstance() == null){
+//            return;
+//        }
+//        if(e.isCancelled()){
+//            return;
+//        }
+//        if (BreakoutBot.getInstance().stafftfa.awatingtfa(e.getPlayer())){
+//            Location loc = e.getFrom();
+//            loc.setX(loc.getBlockX()+0.5);
+//            loc.setY(loc.getBlockY());
+//            loc.setZ(loc.getBlockZ()+0.5);
+//            e.getPlayer().teleport(loc);
+//            e.setCancelled(true);
+//        }
+//
+//    }
+//    @EventHandler(priority = EventPriority.LOWEST)
+//    public void onPlayerChat(AsyncPlayerChatEvent e){
+//        if(BreakoutBot.getInstance() == null){
+//            return;
+//        }
+//        if(e.isCancelled()){
+//            return;
+//        }
+//        e.setCancelled(BreakoutBot.getInstance().stafftfa.awatingtfa(e.getPlayer()));
+//    }
+//    @EventHandler(priority = EventPriority.LOWEST)
+//    public void onCommandProcess(PlayerCommandPreprocessEvent e){
+//        if(BreakoutBot.getInstance() == null){
+//            return;
+//        }
+//        if(e.isCancelled()){
+//            return;
+//        }
+//        e.setCancelled(BreakoutBot.getInstance().stafftfa.awatingtfa(e.getPlayer()));
+//    }
+//    @EventHandler(priority = EventPriority.LOWEST)
+//    public void onPlayerInteract(PlayerInteractEvent e){
+//        if(BreakoutBot.getInstance() == null){
+//            return;
+//        }
+//        if(e.isCancelled()){
+//            return;
+//        }
+//        if(!BreakoutBot.getInstance().stafftfa.RequestTFA(e.getPlayer())){
+//            return;
+//        }
+//        e.setCancelled(BreakoutBot.getInstance().stafftfa.awatingtfa(e.getPlayer()));
+//    }
+//    @EventHandler(priority = EventPriority.LOWEST)
+//    public void onInventoryEvent(InventoryClickEvent e){
+//        if(e.getInventory().getType() == InventoryType.CRAFTING){
+//            //Happy now XD
+//            return;
+//        }
+//        if(BreakoutBot.getInstance() == null){
+//            return;
+//        }
+//        e.setCancelled(BreakoutBot.getInstance().stafftfa.awatingtfa((Player) e.getWhoClicked()));
+//    }
+//
 
 }

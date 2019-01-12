@@ -39,10 +39,12 @@ public class AnouncementManager {
                     AnouncementManager.getInstance().next = 0;
                     next = 0;
                 }
-                for (String line : cnf.getConfig().getConfigurationSection("announcements").getStringList(keys.get(next))){
-                    core.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', line));
-            }
+                if(PrisonCore.getInstance().getServer().getOnlinePlayers().size() > 0) {
+                    for (String line : cnf.getConfig().getConfigurationSection("announcements").getStringList(keys.get(next))) {
+                        core.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', line));
+                    }
                 AnouncementManager.getInstance().next++;
+                }
             }
         },cnf.getConfig().getInt("delay")*20,cnf.getConfig().getInt("delay")*20);
     }

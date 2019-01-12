@@ -1,5 +1,6 @@
 package net.breakoutinc.prisoncore.managers;
 
+import com.comphenix.protocol.PacketType;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.breakoutinc.prisoncore.Config;
 import net.breakoutinc.prisoncore.PrisonCore;
@@ -36,6 +37,12 @@ public class ChatManager {
         final FileConfiguration config = new Config(main.getDataFolder().getPath(), "lang.yml").getConfig();
         String msg = prefix ? config.getString("prefix", "&7[&cBOINC&7]") + config.getString(key) : config.getString(key);
         msg  = PlaceholderAPI.setPlaceholders(p, msg);
+        p.sendMessage(cc(msg));
+    }
+
+    public void sendMessageFromConfig(CommandSender p, String key, boolean prefix){
+        final FileConfiguration config = new Config(main.getDataFolder().getPath(), "lang.yml").getConfig();
+        String msg = prefix ? config.getString("prefix", "&7[&cBOINC&7]") + config.getString(key) : config.getString(key);
         p.sendMessage(cc(msg));
     }
     public void sendMessageFromConfig(Player p,String key,boolean prefix, HashMap<String,String> replacements){

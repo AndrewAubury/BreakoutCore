@@ -1,0 +1,13 @@
+formats:
+  default:
+    priority: 0
+    format: "&8[&7%prisoncore_prestige%&8/&7%prisoncore_mine%&8] &7%prisoncore_displayname%"
+    perm: "default"
+  donator:
+    priority: 5
+    format: "&8[&3$&8] &b%prisoncore_displayname%"
+    perm: "chat.donator"
+  owner:
+    priority: 10
+    format: "&8[&d✪&8] &b%prisoncore_displayname%"
+    perm: "chat.owner"

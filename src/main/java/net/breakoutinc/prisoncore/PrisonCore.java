@@ -3,6 +3,7 @@ package net.breakoutinc.prisoncore;
 import net.breakoutinc.prisoncore.commands.*;
 import net.breakoutinc.prisoncore.core.discord.BreakoutBot;
 import net.breakoutinc.prisoncore.events.*;
+import net.breakoutinc.prisoncore.islands.IslandManager;
 import net.breakoutinc.prisoncore.islands.managers.IslandCommandHandler;
 import net.breakoutinc.prisoncore.managers.*;
 import net.breakoutinc.prisoncore.objects.PrisonPlayer;
@@ -11,12 +12,15 @@ import net.dv8tion.jda.core.entities.Role;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 
 /**
  * Created by Andrew on 24/11/2017.
@@ -26,6 +30,8 @@ public class PrisonCore extends JavaPlugin {
     private static PrisonCore instance;
 
     public Config miscConfig = new Config(getDataFolder().getPath(),"misc.yml");
+
+    public Config tabConfig = null;
 
     private PlayerManager pm;
     private static Economy econ = null;
@@ -38,10 +44,11 @@ public class PrisonCore extends JavaPlugin {
     }
     @Override
     public void onEnable() {
+
 //        getLogger().addHandler();
         instance = this;
         pm = new PlayerManager();
-
+        tabConfig = new Config(getDataFolder().getPath(), "tablist.yml");
         //getCommand("timetest").setExecutor(new IslandCommandHandler());
         getCommand("rankup").setExecutor(new RankUpCommand());
         getCommand("prestige").setExecutor(new PrestigeCommand());
@@ -54,6 +61,7 @@ public class PrisonCore extends JavaPlugin {
         // getCommand("prisoncoretest").setExecutor(new TestCommand());
         // getCommand("plugins").setExecutor(new pluginCommand());
         getCommand("island").setExecutor(new IslandCommandHandler());
+        getCommand("island").setTabCompleter((IslandCommandHandler) getCommand("island").getExecutor());
         getServer().getPluginManager().registerEvents(new JoinEvent(), this);
         getServer().getPluginManager().registerEvents(new LeaveEvent(), this);
         getServer().getPluginManager().registerEvents(new AsyncChatEvent(), this);
@@ -77,8 +85,11 @@ public class PrisonCore extends JavaPlugin {
             new TimePlayed(pp);
     }
         new AnouncementManager();
-        Thread bot = new Thread((Runnable) () -> new BreakoutBot());
+        Thread bot = new Thread(() -> new BreakoutBot());
         bot.start();
+
+        IslandManager.getInstance().loadDB();
+
    super.onEnable();
     }
 
@@ -94,6 +105,11 @@ public class PrisonCore extends JavaPlugin {
             //BreakoutBot.getInstance().getJDA().shutdownNow();
 
         }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        return super.onTabComplete(sender, command, alias, args);
     }
 
     public PlayerManager getPM() {
@@ -166,7 +182,7 @@ public class PrisonCore extends JavaPlugin {
         }
         if (power > 303)
         {
-            System.out.println("Tried calculating " + Double.toString(value) + " but power was above 303 (centillion power), so returned formatted number");
+            System.out.println("Tried calculating " + value + " but power was above 303 (centillion power), so returned formatted number");
             return formatter.format(value);
         }
         if (power >= 100)

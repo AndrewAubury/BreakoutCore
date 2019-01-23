@@ -14,11 +14,11 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -139,6 +139,7 @@ public class PrisonPlayer {
         PrisonCore.getEcon().withdrawPlayer(player,PrisonCore.getEcon().getBalance(player));
         perms.playerAddGroup(null,player,rank);
         save();
+        setListName();
     }
 
     public void fixPerms(){
@@ -178,9 +179,44 @@ public class PrisonPlayer {
         perms.playerAddGroup(null,player,rank);
         rm.runCommands(player);
         save();
+        setListName();
     }
     public TimePlayed getTimeLogger() {
         return timeLogger;
+    }
+
+    public void setListName() {
+        ConfigurationSection defaultFormat = null;
+        ArrayList<String> formatList = new ArrayList<>();
+        FileConfiguration tabconfig = PrisonCore.getInstance().tabConfig.getConfig();
+        ConfigurationSection section = tabconfig.getConfigurationSection("formats");
+        for (String str : section.getKeys(false)) {
+            if (section.getConfigurationSection(str).getString("perm").equalsIgnoreCase("default")) {
+                defaultFormat = section.getConfigurationSection(str);
+            }
+            formatList.add(str);
+        }
+
+
+        ConfigurationSection finalFormat = null;
+        for (String format : formatList) {
+            ConfigurationSection formatSection = section.getConfigurationSection(format);
+            if (player.hasPermission(formatSection.getString("perm"))) {
+                if (finalFormat == null) {
+                    finalFormat = formatSection;
+                } else {
+                    if (formatSection.getInt("priority") > finalFormat.getInt("priority")) {
+                        finalFormat = formatSection;
+                    }
+                }
+            }
+        }
+        if (finalFormat == null) {
+            finalFormat = defaultFormat;
+        }
+        String formatString = finalFormat.getString("format");
+        String withPlaceholdersSet = PlaceholderAPI.setPlaceholders(player, formatString);
+        player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', withPlaceholdersSet));
     }
 
     public void setTimeLogger(TimePlayed timeLogger) {

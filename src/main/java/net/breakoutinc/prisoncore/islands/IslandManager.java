@@ -1,10 +1,8 @@
 package net.breakoutinc.prisoncore.islands;
 
 
-import com.boydti.fawe.wrappers.WorldWrapper;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.Vector;
-import com.sk89q.*;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import lombok.Getter;
@@ -19,6 +17,7 @@ import org.bukkit.World;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class IslandManager {
     private static IslandManager instance;
@@ -30,7 +29,10 @@ public class IslandManager {
     }
     private PrisonCore prisonCore;
 
+    @Getter
     HashMap<Integer, HashMap<Integer, Island>> islandMapping;
+    @Getter
+    HashMap<UUID, Island> islandUUIDMapping;
 
     @Getter private Config islandConfig;
     @Getter private IslandDatabase db;
@@ -38,8 +40,133 @@ public class IslandManager {
     public IslandManager(){
         prisonCore = PrisonCore.getInstance();
         islandConfig = new Config(prisonCore.getDataFolder().getPath(), "islands.yml");
+        islandUUIDMapping = new HashMap<>();
+        islandMapping = new HashMap<>();
+
+        PrisonCore.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(PrisonCore.getInstance(), getResetMineRunnable(), 120l * 20l, 120l * 20l);
+    }
+
+
+    public World getWorld() {
+        String worldName = islandConfig.getConfig().getString("island-world");
+
+        return PrisonCore.getInstance().getServer().getWorld(worldName);
+    }
+
+    public void loadDB() {
         this.db = new IslandSQLLite(prisonCore);
         this.db.load();
+    }
+
+    public void storeIsland(int X, int Z, Island island) {
+        if (!islandMapping.containsKey(X)) {
+            islandMapping.put(X, new HashMap<>());
+        }
+
+        islandMapping.get(X).put(Z, island);
+    }
+
+    public Island getIslandXY(int X, int Z) {
+        if (!islandMapping.containsKey(X)) {
+            return null;
+        }
+        if (!islandMapping.get(X).containsKey(Z)) {
+            return null;
+        } else {
+            return islandMapping.get(X).get(Z);
+        }
+    }
+
+    public boolean isXZSafe(int x, int z) {
+        if (!islandMapping.containsKey(x)) {
+            return true;
+        }
+        return !islandMapping.get(x).containsKey(z);
+    }
+
+    public int getNextX() {
+        int BiggestX = 0;
+        int BiggestZ = 0;
+
+
+        for (int i : islandMapping.keySet()) {
+            if (i > BiggestX) {
+                BiggestX = i;
+            }
+        }
+        if (islandMapping.containsKey(BiggestX)) {
+            for (int i : islandMapping.get(BiggestX).keySet()) {
+                if (i > BiggestZ) {
+                    BiggestZ = i;
+                }
+            }
+        }
+
+
+        if (BiggestX == BiggestZ) {
+            return BiggestX + 1;
+        }
+        if (BiggestX > BiggestZ) {
+            return BiggestX;
+        }
+        if (BiggestX < BiggestZ) {
+            return BiggestZ;
+        }
+
+        if (BiggestX < BiggestZ) {
+            return BiggestX + 1;
+        } else if (BiggestX == BiggestZ) {
+            return BiggestX + 1;
+        } else if (BiggestX > BiggestZ) {
+            return BiggestX;
+        }
+
+        return BiggestX + 1; //Incase Error
+    }
+
+    public int getNextZ() {
+        int BiggestX = 0;
+        int BiggestZ = 0;
+
+        for (int i : islandMapping.keySet()) {
+            if (i > BiggestX) {
+                BiggestX = i;
+            }
+
+        }
+        if (islandMapping.containsKey(BiggestX)) {
+            for (int ii : islandMapping.get(BiggestX).keySet()) {
+                if (ii > BiggestZ) {
+                    BiggestZ = ii;
+                }
+            }
+        }
+        if (BiggestX < BiggestZ) {
+            return BiggestZ;
+        } else if (BiggestX == BiggestZ) {
+            return 0;
+        } else if (BiggestX > BiggestZ) {
+            return BiggestZ + 1;
+        }
+
+        return 1;
+    }
+
+    public Runnable getResetMineRunnable() {
+        return new Runnable() {
+            @Override
+            public void run() {
+                IslandManager.getInstance().resetAllMines();
+            }
+        };
+    }
+
+    public void resetAllMines() {
+        for (Island i : islandUUIDMapping.values()) {
+            if (i.isIslandMineEnabled()) {
+                i.resetMine();
+            }
+        }
     }
 
     public void pasteIsland(Location loc){
@@ -63,10 +190,27 @@ public class IslandManager {
     }
 
     public boolean isValidIslandLocation(Location loc){
-        if(((loc.getChunk().getX()+"").endsWith("0")||(loc.getChunk().getX()+"").endsWith("1")) && ((loc.getChunk().getZ()+"").endsWith("0")||(loc.getChunk().getZ()+"").endsWith("1"))){
-            return false;
-        }
-        return true;
+        return getIsland(loc) != null;
     }
+
+    public Island getIsland(Location loc) {
+        int CX = loc.getChunk().getX();
+        int CZ = loc.getChunk().getZ();
+        for (Island i : islandUUIDMapping.values()) {
+            int X1 = i.getChunkMinX();
+            int X2 = i.getChunkMaxX();
+            int Z1 = i.getChunkMinZ();
+            int Z2 = i.getChunkMaxZ();
+
+            if ((CX > X1 && CX < X2) || CX == X1 || CX == X2) {
+                if ((CZ > Z1 && CZ < Z2) || CZ == Z1 || CZ == Z2) {
+                    return i;
+                }
+            }
+        }
+        return null;
+    }
+
+
 
 }

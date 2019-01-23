@@ -1,7 +1,7 @@
 island-schematic: "island.schematic"
 water-level: 64.00
-island-chunks: 8
-spacer-chunks: 2
+island-chunks: 7
+spacer-chunks: 3
 
 island-world: "island_world"
 

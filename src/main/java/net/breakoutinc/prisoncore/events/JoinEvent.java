@@ -1,20 +1,11 @@
 package net.breakoutinc.prisoncore.events;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import net.breakoutinc.prisoncore.Config;
 import net.breakoutinc.prisoncore.PrisonCore;
 import net.breakoutinc.prisoncore.core.discord.BreakoutBot;
-import net.breakoutinc.prisoncore.managers.ConfigManager;
-import net.breakoutinc.prisoncore.managers.PlayerManager;
 import net.breakoutinc.prisoncore.objects.PrisonPlayer;
 import net.breakoutinc.prisoncore.objects.TimePlayed;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -32,6 +23,8 @@ public class JoinEvent implements Listener {
         PrisonPlayer prisonPlayer = PrisonCore.getInstance().getPM().getPlayer(e.getPlayer());
         TimePlayed time = new TimePlayed(prisonPlayer);
         time.StartRecording();
+
+        prisonPlayer.setListName();
 
         PrisonCore.getInstance().getLogger().info("Starting to log player online time for "+e.getPlayer().getName());
         if(BreakoutBot.getInstance().isEnabled()){

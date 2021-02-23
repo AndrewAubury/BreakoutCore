@@ -7,7 +7,6 @@
 
 package net.breakoutinc.prisoncore.events;
 
-import javafx.scene.layout.Priority;
 import net.breakoutinc.prisoncore.core.discord.BreakoutBot;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

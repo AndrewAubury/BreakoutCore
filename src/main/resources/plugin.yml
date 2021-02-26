@@ -6,7 +6,7 @@ softdepend:
   - "ProtocolLib"
   - "WorldEdit"
   - "WorldGuard"
-authors: [AndrewAubury, PiggyPiglet]
+authors: [AndrewAubury, PiggyPiglet, GaryCraft]
 commands:
   rankup:
     usage: /<command>
